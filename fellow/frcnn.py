@@ -5,10 +5,10 @@ Implements the FRCNN with Attribute Head
 import numpy as np
 import torch
 
-from structures.bounding_box import BoxList
-from structures.image_list import to_image_list
-from modeling.detector.generalized_rcnn import GeneralizedRCNN
-from attribute_head.attribute_head import build_roi_attribute_head
+from fellow.structures.bounding_box import BoxList
+from fellow.structures.image_list import to_image_list
+from fellow.modeling.detector.generalized_rcnn import GeneralizedRCNN
+from fellow.attribute_head.attribute_head import build_roi_attribute_head
 
 
 class AttrRCNN(GeneralizedRCNN):

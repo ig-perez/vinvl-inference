@@ -6,10 +6,11 @@ Miscellaneous utility functions
 import torch
 from torch import nn
 from torch.nn import functional as F
-from maskrcnn_benchmark.config import cfg
-from maskrcnn_benchmark.layers import Conv2d
-from maskrcnn_benchmark.modeling.poolers import Pooler
+from fellow.config_maskrcnn_benchmark import get_cfg_defaults
+from fellow.layers import Conv2d
+from fellow.modeling.poolers import Pooler
 
+cfg = get_cfg_defaults()
 
 def get_group_gn(dim, dim_per_gp, num_groups):
     """get number of groups used by GroupNorm, based on number of channels."""
