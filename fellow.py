@@ -1,13 +1,17 @@
+# General
+from abc import *
+
 # Encoder
 from numpy.core.fromnumeric import transpose
-import torch
-from abc import *
-from maskrcnn_benchmark.config import cfg
-from scene_graph_benchmark.config import sg_cfg
-from scene_graph_benchmark.AttrRCNN import AttrRCNN
-from maskrcnn_benchmark.utils.checkpoint import DetectronCheckpointer
+
+from fellow.config_maskrcnn_benchmark import get_cfg_defaults
+from fellow.config_scene_graph_benchmark import get_sg_cfg_defaults
+from fellow.frcnn import AttrRCNN
+from fellow.checkpointer import DetectronCheckpointer
+
+
 import numpy as np
-from encoder.base_encoder import BaseEncoder
+
 
 # Decoder
 from oscar.modeling.modeling_bert import BertForImageCaptioning
@@ -15,14 +19,11 @@ from transformers.pytorch_transformers import BertTokenizer, BertConfig
 from oscar.run_captioning import CaptionTensorizer
 import numpy as np
 import torch
-from decoder.base_decoder import BaseDecoder
+
 
 
 # Inference
 import cv2
-from encoder.vinvl_encoder import Encoder
-#from bottom_up_encoder import Encoder as Encoder
-from decoder.captioning_decoder import Decoder
 import matplotlib.pyplot as plt
 
 
@@ -46,6 +47,9 @@ class Encoder(BaseEncoder):
                  MIN_BOXES=10,
                  MAX_BOXES=100,
                  conf_threshold=0.2):
+
+        cfg = get_cfg_defaults()
+        sg_cfg = get_sg_cfg_defaults()
 
         cfg.set_new_allowed(True)
         cfg.merge_from_other_cfg(sg_cfg)
@@ -225,13 +229,11 @@ if __name__ == "__main__":
 
     os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     encoder = Encoder()
-    decoder = Decoder('/workspace/Oscar/CIDEr_output/checkpoint-2-44430')
+    decoder = Decoder('fellow/coco_captioning_base_scst/checkpoint-15-66405')  # base model w/ CIDEr optimization
 
-
-
-    img1 = cv2.imread('/workspace/scene_graph_benchmark/bear.jpg', cv2.IMREAD_UNCHANGED)
-    img2 = cv2.imread('/workspace/airplane.jpg', cv2.IMREAD_UNCHANGED)
-    img3 = cv2.imread('/workspace/pitching.jpg', cv2.IMREAD_UNCHANGED)
+    img1 = cv2.imread('fellow/images/woman.png', cv2.IMREAD_UNCHANGED)
+    img2 = cv2.imread('fellow/images/food.png', cv2.IMREAD_UNCHANGED)
+    img3 = cv2.imread('fellow/images/man.png', cv2.IMREAD_UNCHANGED)
 
     fig = plt.figure(figsize=(20, 12))
     for i in range(1, 4):
@@ -241,5 +243,5 @@ if __name__ == "__main__":
 
     out = decoder(encoder([img1, img2, img3]))
 
-    out
+    print(out)
 
