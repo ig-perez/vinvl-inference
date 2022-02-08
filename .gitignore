@@ -1,5 +1,6 @@
 # Initially taken from Github's Python gitignore file
 od_models
+coco_captioning_base_scst
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
