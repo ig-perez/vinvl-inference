@@ -7,7 +7,7 @@ from numpy.core.fromnumeric import transpose
 from fellow.config_maskrcnn_benchmark import get_cfg_defaults
 from fellow.config_scene_graph_benchmark import get_sg_cfg_defaults
 from fellow.frcnn import AttrRCNN
-from fellow.checkpointer import DetectronCheckpointer
+#from fellow.checkpointer import DetectronCheckpointer
 
 
 import numpy as np
@@ -43,7 +43,7 @@ class Encoder(BaseEncoder):
                        "TEST.IGNORE_BOX_REGRESSION", "True", "MODEL.ATTRIBUTE_ON", "True", "TEST.OUTPUT_FEATURE",
                        "True"],
                  ckpt="fellow/od_models/vinvl_vg_x152c4.pth",
-                 DEVICE="cuda",
+                 DEVICE=torch.device("cuda" if torch.cuda.is_available() else "cpu"),
                  MIN_BOXES=10,
                  MAX_BOXES=100,
                  conf_threshold=0.2):
@@ -61,8 +61,8 @@ class Encoder(BaseEncoder):
         self.model = AttrRCNN(cfg)
         self.model.to(DEVICE)
 
-        checkpointer = DetectronCheckpointer(cfg, self.model)
-        _ = checkpointer.load(ckpt, use_latest=True)
+        #checkpointer = DetectronCheckpointer(cfg, self.model)
+        #_ = checkpointer.load(ckpt, use_latest=True)
 
         self.DEVICE = DEVICE
 

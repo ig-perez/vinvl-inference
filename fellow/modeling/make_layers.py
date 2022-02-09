@@ -8,7 +8,7 @@ from torch import nn
 from torch.nn import functional as F
 from fellow.config_maskrcnn_benchmark import get_cfg_defaults
 from fellow.layers import Conv2d
-from fellow.modeling.poolers import Pooler
+#from fellow.modeling.poolers import Pooler
 
 cfg = get_cfg_defaults()
 
